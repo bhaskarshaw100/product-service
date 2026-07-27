@@ -2,6 +2,7 @@ package com.bhaskar.productservice.controllers;
 
 import com.bhaskar.productservice.dtos.CreateProductRequest;
 import com.bhaskar.productservice.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -10,7 +11,7 @@ public class ProductController {
 
     private ProductService productService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(@Qualifier("productServiceFakeStoreImpl") ProductService productService) {
         this.productService = productService;
     }
 
