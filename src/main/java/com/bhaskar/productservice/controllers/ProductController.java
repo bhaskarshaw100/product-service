@@ -17,7 +17,8 @@ public class ProductController {
 
     @PostMapping("")
     public String createProduct(@RequestBody CreateProductRequest createProductRequest) {
-        return "Here is the price : " + createProductRequest.getPrice();
+        return "Here is the price : " + createProductRequest.getPrice()
+                + "\nClass Name : " + productService.getClass().getSimpleName();
     }
 
     @GetMapping("")
