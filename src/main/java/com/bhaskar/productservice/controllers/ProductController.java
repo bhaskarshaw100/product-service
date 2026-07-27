@@ -1,8 +1,9 @@
 package com.bhaskar.productservice.controllers;
 
 import com.bhaskar.productservice.dtos.CreateProductRequest;
+import com.bhaskar.productservice.dtos.CreateProductResponse;
+import com.bhaskar.productservice.models.Product;
 import com.bhaskar.productservice.services.ProductService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,9 +17,9 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public String createProduct(@RequestBody CreateProductRequest createProductRequest) {
-        return "Here is the price : " + createProductRequest.getPrice()
-                + "\nClass Name : " + productService.getClass().getSimpleName();
+    public CreateProductResponse createProduct(@RequestBody CreateProductRequest createProductRequest) {
+        Product product = productService.createProduct(createProductRequest.toProduct());
+        return CreateProductResponse.fromProduct(product);
     }
 
     @GetMapping("")
