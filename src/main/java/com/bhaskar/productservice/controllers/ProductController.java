@@ -6,6 +6,8 @@ import com.bhaskar.productservice.models.Product;
 import com.bhaskar.productservice.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -23,8 +25,11 @@ public class ProductController {
     }
 
     @GetMapping("")
-    public void getProducts() {
-
+    public List<CreateProductResponse> getProducts() {
+        List<Product> products = productService.getAllProducts();
+        return products.stream()
+                .map(CreateProductResponse::fromProduct)
+                .toList();
     }
 
     @GetMapping("/{id}")

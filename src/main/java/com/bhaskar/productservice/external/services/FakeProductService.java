@@ -4,6 +4,9 @@ import com.bhaskar.productservice.config.AppProperties;
 import com.bhaskar.productservice.constants.PropertyConstants;
 import com.bhaskar.productservice.external.dtos.FakeProductRequest;
 import com.bhaskar.productservice.external.dtos.FakeProductResponse;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,7 +25,14 @@ public class FakeProductService {
 
     public List<FakeProductResponse> getAllProducts() {
         String url = appProperties.getProperty(PropertyConstants.FAKE_STORE_BASE_URL);
-        return restTemplate.getForObject(url, List.class);
+        ResponseEntity<List<FakeProductResponse>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {
+                }
+        );
+        return response.getBody() == null ? List.of() : response.getBody();
     }
 
     public FakeProductResponse createFakeProduct(FakeProductRequest fakeProductRequest) {
