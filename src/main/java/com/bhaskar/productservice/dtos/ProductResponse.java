@@ -6,14 +6,14 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CreateProductResponse {
+public class ProductResponse {
     private Long id;
     private String title;
     private double price;
     private String categoryName;
 
-    public static CreateProductResponse fromProduct(Product product) {
-        return CreateProductResponse.builder()
+    public static ProductResponse fromProduct(Product product) {
+        return ProductResponse.builder()
                 .id(product.getId())
                 .title(product.getTitle())
                 .price(product.getPrice())

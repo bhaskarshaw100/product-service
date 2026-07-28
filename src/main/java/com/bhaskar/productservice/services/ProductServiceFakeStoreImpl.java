@@ -36,17 +36,20 @@ public class ProductServiceFakeStoreImpl implements ProductService {
 
     @Override
     public Product getSingleProduct(Long id) {
-        return null;
+        FakeProductResponse fakeProductResponse = fakeProductService.getSingleFakeProduct(id.intValue());
+        return createProductFromFakeProductResponse(fakeProductResponse);
     }
 
     @Override
     public Product updateProduct(Long id, Product product) {
-        return null;
+        FakeProductResponse fakeProductResponse = fakeProductService.updateFakeProduct(id.intValue(), createFakeProductRequest(product));
+        return createProductFromFakeProductResponse(fakeProductResponse);
     }
 
     @Override
-    public void deleteProduct(Long id) {
-
+    public String deleteProduct(Long id) {
+        boolean result = fakeProductService.deleteFakeProduct(id.intValue());
+        return result ? "Product deleted successfully" : "Product deletion failed";
     }
 
     private FakeProductRequest createFakeProductRequest(Product product) {
@@ -61,6 +64,7 @@ public class ProductServiceFakeStoreImpl implements ProductService {
 
     private Product createProductFromFakeProductResponse(FakeProductResponse fakeProductResponse) {
         return Product.builder()
+                .id((long)fakeProductResponse.getId())
                 .title(fakeProductResponse.getTitle())
                 .price(fakeProductResponse.getPrice())
                 .description(fakeProductResponse.getDescription())

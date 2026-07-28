@@ -33,7 +33,7 @@ public class ProductServiceDbImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(Long id) {
-
+    public String deleteProduct(Long id) {
+        return null;
     }
 }
