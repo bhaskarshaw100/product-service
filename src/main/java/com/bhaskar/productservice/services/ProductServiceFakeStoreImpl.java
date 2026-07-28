@@ -27,7 +27,7 @@ public class ProductServiceFakeStoreImpl implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        List<FakeProductResponse> fakeProductResponseList = fakeProductService.getAllProducts();
+        List<FakeProductResponse> fakeProductResponseList = fakeProductService.getAllFakeProducts();
         return fakeProductResponseList
                 .stream()
                 .map(this::createProductFromFakeProductResponse)

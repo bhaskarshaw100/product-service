@@ -5,6 +5,7 @@ import com.bhaskar.productservice.constants.PropertyConstants;
 import com.bhaskar.productservice.external.dtos.FakeProductRequest;
 import com.bhaskar.productservice.external.dtos.FakeProductResponse;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class FakeProductService {
         this.appProperties = appProperties;
     }
 
-    public List<FakeProductResponse> getAllProducts() {
+    public List<FakeProductResponse> getAllFakeProducts() {
         String url = appProperties.getProperty(PropertyConstants.FAKE_STORE_BASE_URL);
         ResponseEntity<List<FakeProductResponse>> response = restTemplate.exchange(
                 url,
@@ -41,5 +42,32 @@ public class FakeProductService {
         FakeProductResponse fakeProductResponse = restTemplate.postForObject(url, fakeProductRequest, FakeProductResponse.class);
         System.out.println("Created fake product: " + fakeProductResponse);
         return fakeProductResponse;
+    }
+
+    public FakeProductResponse getSingleFakeProduct(int id) {
+        String url = appProperties.getProperty(PropertyConstants.FAKE_STORE_BASE_URL) + "/" + id;
+        return restTemplate.getForObject(url, FakeProductResponse.class);
+    }
+
+    public FakeProductResponse updateFakeProduct(int id, FakeProductRequest fakeProductRequest) {
+        String url = appProperties.getProperty(PropertyConstants.FAKE_STORE_BASE_URL) + "/" + id;
+        ResponseEntity<FakeProductResponse> response = restTemplate.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(fakeProductRequest),
+                FakeProductResponse.class
+        );
+        return response.getBody();
+    }
+
+    public boolean deleteFakeProduct(int id) {
+        String url = appProperties.getProperty(PropertyConstants.FAKE_STORE_BASE_URL) + "/" + id;
+        ResponseEntity<Void> response = restTemplate.exchange(
+                url,
+                HttpMethod.DELETE,
+                null,
+                Void.class
+        );
+        return response.getStatusCode().is2xxSuccessful();
     }
 }
