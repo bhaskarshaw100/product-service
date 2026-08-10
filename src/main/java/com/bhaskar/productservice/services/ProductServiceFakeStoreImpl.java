@@ -63,13 +63,13 @@ public class ProductServiceFakeStoreImpl implements ProductService {
     }
 
     private Product createProductFromFakeProductResponse(FakeProductResponse fakeProductResponse) {
-        return Product.builder()
-                .id((long)fakeProductResponse.getId())
-                .title(fakeProductResponse.getTitle())
-                .price(fakeProductResponse.getPrice())
-                .description(fakeProductResponse.getDescription())
-                .categoryName(fakeProductResponse.getCategory())
-                .imageUrl(fakeProductResponse.getImage())
-                .build();
+         Product product = new Product();
+         product.setId((long) fakeProductResponse.getId());
+         product.setTitle(fakeProductResponse.getTitle());
+         product.setPrice(fakeProductResponse.getPrice());
+         product.setDescription(fakeProductResponse.getDescription());
+         product.setCategoryName(fakeProductResponse.getCategory());
+         product.setImageUrl(fakeProductResponse.getImage());
+         return product;
     }
 }

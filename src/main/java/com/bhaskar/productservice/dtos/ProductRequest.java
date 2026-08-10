@@ -14,12 +14,12 @@ public class ProductRequest {
     private String categoryName;
 
     public Product toProduct() {
-        return Product.builder()
-                .title(this.title)
-                .description(this.description)
-                .price(this.price)
-                .imageUrl(this.imageUrl)
-                .categoryName(this.categoryName)
-                .build();
+        Product product = new Product();
+        product.setTitle(this.title);
+        product.setDescription(this.description);
+        product.setPrice(this.price);
+        product.setImageUrl(this.imageUrl);
+        product.setCategoryName(this.categoryName);
+        return product;
     }
 }
