@@ -3,6 +3,7 @@ package com.bhaskar.productservice.services;
 import com.bhaskar.productservice.external.dtos.FakeProductRequest;
 import com.bhaskar.productservice.external.dtos.FakeProductResponse;
 import com.bhaskar.productservice.external.services.FakeProductService;
+import com.bhaskar.productservice.models.CategoryName;
 import com.bhaskar.productservice.models.Product;
 import org.springframework.stereotype.Service;
 
@@ -57,7 +58,7 @@ public class ProductServiceFakeStoreImpl implements ProductService {
                 .title(product.getTitle())
                 .price((float) product.getPrice())
                 .description(product.getDescription())
-                .category(product.getCategoryName())
+                .category(product.getCategoryName().name())
                 .image(product.getImageUrl())
                 .build();
     }
@@ -67,8 +68,8 @@ public class ProductServiceFakeStoreImpl implements ProductService {
          product.setId((long) fakeProductResponse.getId());
          product.setTitle(fakeProductResponse.getTitle());
          product.setPrice(fakeProductResponse.getPrice());
+        product.setCategoryName(CategoryName.valueOf(fakeProductResponse.getCategory()));
          product.setDescription(fakeProductResponse.getDescription());
-         product.setCategoryName(fakeProductResponse.getCategory());
          product.setImageUrl(fakeProductResponse.getImage());
          return product;
     }

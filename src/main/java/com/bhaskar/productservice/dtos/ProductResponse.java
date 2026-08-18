@@ -1,5 +1,6 @@
 package com.bhaskar.productservice.dtos;
 
+import com.bhaskar.productservice.models.CategoryName;
 import com.bhaskar.productservice.models.Product;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,7 @@ public class ProductResponse {
     private Long id;
     private String title;
     private double price;
-    private String categoryName;
+    private CategoryName categoryName;
 
     public static ProductResponse fromProduct(Product product) {
         return ProductResponse.builder()

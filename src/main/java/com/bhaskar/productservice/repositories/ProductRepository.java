@@ -10,5 +10,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Override
     @NonNull
-    public Product save(Product product);
+    Product save(Product product);
 }

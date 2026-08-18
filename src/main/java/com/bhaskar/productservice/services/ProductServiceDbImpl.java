@@ -1,18 +1,41 @@
 package com.bhaskar.productservice.services;
 
+import com.bhaskar.productservice.models.Category;
 import com.bhaskar.productservice.models.Product;
+import com.bhaskar.productservice.repositories.CategoryRepository;
+import com.bhaskar.productservice.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceDbImpl implements ProductService {
 
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+
+    public ProductServiceDbImpl(ProductRepository productRepository, CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+    }
+
     @Override
     public Product createProduct(Product product) {
+        String categoryName = product.getCategory().getName();
 
-        // Implement the logic to create a product in the database
-        System.out.println("Creating product in DB: " + product.getTitle() + ", " + product.getDescription() + ", " + product.getCategoryName() + ", " + product.getPrice());
+        Optional<Category> category = categoryRepository.findByName(categoryName);
+
+        if (category.isEmpty()) {
+            Category toSaveCategory = new Category();
+            toSaveCategory.setName(categoryName);
+            product.setCategory(toSaveCategory);
+            categoryRepository.save(toSaveCategory);
+        } else {
+            product.setCategory(category.get());
+        }
+
+        productRepository.save(product);
 
         return product;
     }

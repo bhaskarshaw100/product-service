@@ -4,6 +4,7 @@ import com.bhaskar.productservice.dtos.ProductRequest;
 import com.bhaskar.productservice.dtos.ProductResponse;
 import com.bhaskar.productservice.models.Product;
 import com.bhaskar.productservice.services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ProductResponse createProduct(@RequestBody ProductRequest productRequest) {
+    public ProductResponse createProduct(@Valid @RequestBody ProductRequest productRequest) {
         Product product = productService.createProduct(productRequest.toProduct());
         return ProductResponse.fromProduct(product);
     }

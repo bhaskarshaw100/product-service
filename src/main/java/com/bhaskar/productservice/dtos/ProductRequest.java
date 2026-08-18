@@ -1,6 +1,9 @@
 package com.bhaskar.productservice.dtos;
 
+import com.bhaskar.productservice.models.Category;
+import com.bhaskar.productservice.models.CategoryName;
 import com.bhaskar.productservice.models.Product;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +14,8 @@ public class ProductRequest {
     private String description;
     private double price;
     private String imageUrl;
-    private String categoryName;
+    @NotNull(message = "Category name cannot be blank")
+    private CategoryName categoryName;
 
     public Product toProduct() {
         Product product = new Product();
@@ -20,6 +24,9 @@ public class ProductRequest {
         product.setPrice(this.price);
         product.setImageUrl(this.imageUrl);
         product.setCategoryName(this.categoryName);
+        Category category = new Category();
+        category.setName(this.categoryName.name());
+        product.setCategory(category);
         return product;
     }
 }
