@@ -22,41 +22,53 @@ public class ProductServiceDbImpl implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
-        String categoryName = product.getCategory().getName();
-
-        Optional<Category> category = categoryRepository.findByName(categoryName);
-
-        if (category.isEmpty()) {
-            Category toSaveCategory = new Category();
-            toSaveCategory.setName(categoryName);
-            product.setCategory(toSaveCategory);
-            categoryRepository.save(toSaveCategory);
-        } else {
-            product.setCategory(category.get());
-        }
-
+        product.setCategory(resolveOrCreateCategory(product));
         productRepository.save(product);
-
         return product;
     }
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        return productRepository.findAll();
     }
 
     @Override
     public Product getSingleProduct(Long id) {
-        return null;
+        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
     @Override
     public Product updateProduct(Long id, Product product) {
-        return null;
+        product.setId(id);
+        product.setCategory(resolveOrCreateCategory(product));
+        productRepository.save(product);
+        return product;
     }
 
     @Override
     public String deleteProduct(Long id) {
-        return null;
+        if (productRepository.findById(id).isEmpty()) {
+            return "Product not found";
+        }
+        productRepository.deleteById(id);
+        return "Product deleted successfully";
+    }
+
+    private Category resolveOrCreateCategory(Product product) {
+        String categoryName = product.getCategoryName() != null
+                ? product.getCategoryName().name() : null;
+
+        if (categoryName == null || categoryName.isBlank()) {
+            throw new IllegalArgumentException("Category name is required");
+        }
+
+        Optional<Category> existingCategory = categoryRepository.findByName(categoryName);
+        if (existingCategory.isPresent()) {
+            return existingCategory.get();
+        }
+
+        Category category = new Category();
+        category.setName(categoryName);
+        return categoryRepository.save(category);
     }
 }
