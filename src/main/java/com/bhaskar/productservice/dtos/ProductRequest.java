@@ -12,7 +12,7 @@ import lombok.Setter;
 public class ProductRequest {
     private String title;
     private String description;
-    private double price;
+    private Double price;
     private String imageUrl;
     @NotNull(message = "Category name cannot be blank")
     private CategoryName categoryName;

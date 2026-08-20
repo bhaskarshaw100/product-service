@@ -1,5 +1,6 @@
 package com.bhaskar.productservice.services;
 
+import com.bhaskar.productservice.dtos.ProductRequest;
 import com.bhaskar.productservice.models.Category;
 import com.bhaskar.productservice.models.Product;
 import com.bhaskar.productservice.repositories.CategoryRepository;
@@ -43,6 +44,30 @@ public class ProductServiceDbImpl implements ProductService {
         product.setCategory(resolveOrCreateCategory(product));
         productRepository.save(product);
         return product;
+    }
+
+    @Override
+    public Product patchProduct(Long id, ProductRequest product) {
+        Optional<Product> fromDBOptional = productRepository.findById(id);
+        if (fromDBOptional.isEmpty()) {
+            throw new RuntimeException("Product not found");
+        }
+        Product fromDB = fromDBOptional.get();
+        if (product.getTitle() != null) {
+            fromDB.setTitle(product.getTitle());
+        }
+        if (product.getDescription() != null) {
+            fromDB.setDescription(product.getDescription());
+        }
+        if (product.getPrice() != null) {
+            fromDB.setPrice(product.getPrice());
+        }
+        if (product.getCategoryName() != null) {
+            fromDB.setCategoryName(product.getCategoryName());
+            fromDB.setCategory(resolveOrCreateCategory(fromDB));
+        }
+        productRepository.save(fromDB);
+        return fromDB;
     }
 
     @Override

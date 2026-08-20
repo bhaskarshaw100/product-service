@@ -1,5 +1,6 @@
 package com.bhaskar.productservice.services;
 
+import com.bhaskar.productservice.dtos.ProductRequest;
 import com.bhaskar.productservice.external.dtos.FakeProductRequest;
 import com.bhaskar.productservice.external.dtos.FakeProductResponse;
 import com.bhaskar.productservice.external.services.FakeProductService;
@@ -48,6 +49,11 @@ public class ProductServiceFakeStoreImpl implements ProductService {
     }
 
     @Override
+    public Product patchProduct(Long id, ProductRequest product) {
+        return null;
+    }
+
+    @Override
     public String deleteProduct(Long id) {
         boolean result = fakeProductService.deleteFakeProduct(id.intValue());
         return result ? "Product deleted successfully" : "Product deletion failed";
@@ -56,7 +62,7 @@ public class ProductServiceFakeStoreImpl implements ProductService {
     private FakeProductRequest createFakeProductRequest(Product product) {
         return FakeProductRequest.builder()
                 .title(product.getTitle())
-                .price((float) product.getPrice())
+                .price(Float.parseFloat(product.getPrice().toString()))
                 .description(product.getDescription())
                 .category(product.getCategoryName().name())
                 .image(product.getImageUrl())
@@ -67,7 +73,7 @@ public class ProductServiceFakeStoreImpl implements ProductService {
          Product product = new Product();
          product.setId((long) fakeProductResponse.getId());
          product.setTitle(fakeProductResponse.getTitle());
-         product.setPrice(fakeProductResponse.getPrice());
+        product.setPrice((double) fakeProductResponse.getPrice());
         product.setCategoryName(CategoryName.valueOf(fakeProductResponse.getCategory()));
          product.setDescription(fakeProductResponse.getDescription());
          product.setImageUrl(fakeProductResponse.getImage());
