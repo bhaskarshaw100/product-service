@@ -94,6 +94,6 @@ public class ProductServiceDbImpl implements ProductService {
 
         Category category = new Category();
         category.setName(categoryName);
-        return categoryRepository.save(category);
+        return category;
     }
 }
